@@ -60,9 +60,9 @@ module FleskPlugins #:nodoc
     # Returns the PStore instance used to store the
     # CAPTCHA challenges.
     def store
-      @@pstore ||= PStore.new(
-        File.join(RAILS_ROOT, (self.config['store'] || DEFAULT_PSTORE_LOCATION))
-      )
+      storename = File.join(RAILS_ROOT, (self.config['store'] || DEFAULT_PSTORE_LOCATION))
+      FileUtils.mkdir_p(File.dirname(storename))
+      @@pstore ||= PStore.new(storename)
       @@pstore
     end
 
