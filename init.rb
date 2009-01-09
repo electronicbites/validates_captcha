@@ -12,13 +12,11 @@ unless FleskPlugins::CaptchaConfig.config['disable_image_challenges']
   rescue NameError
     puts "\nERROR: RMagick not available, ignoring"  
   rescue LoadError
-    puts "\nERROR: Could not load RMagick. CAPTCHA image challenge not available. (validates_captcha)\n\n"
     RAILS_DEFAULT_LOGGER.error "\n\nERROR: Could not load RMagick. CAPTCHA image challenge not available. (validates_captcha)\n\n"
   else
     require 'captcha_image_challenge'
   end
 else
-  puts "** INFO: CAPTCHA image challenges are disabled. RMagick will not be loaded. (validates_captcha)"
   RAILS_DEFAULT_LOGGER.info "\n\nCAPTCHA image challenges are disabled. RMagick will not be loaded. (validates_captcha)\n\n"
 end
 
