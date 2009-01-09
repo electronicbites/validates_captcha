@@ -21,7 +21,7 @@ How to use in your Rails application.
 Put this plugin in your application's <tt>vendor/plugins</tt> directory. This can be done
 easily using the <tt>script/plugin</tt> script in your application:
 
-  script/plugin install http://nimrod.interinter.net/plugins/trunk/validates_captcha
+  script/plugin install git@github.com:electronicbites/validates_captcha.git
 
 If your app is in Subversion you may want to include an -x to associate the plugin with
 its original repository so you can <tt>svn up</tt> it later. Also, <strong>note the changed
