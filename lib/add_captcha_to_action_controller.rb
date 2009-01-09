@@ -39,7 +39,8 @@ module FleskPlugins
         # keeping your model happily ignorant of the CAPTCHA
         # logic which really belongs in the controller.
         def captcha_valid?(captcha_id, captcha_validation) #:doc:
-          CaptchaChallenge.find(captcha_id) ? captcha.correct?(captcha_validation) : nil
+          captcha = CaptchaChallenge.find(captcha_id)
+          captcha ? captcha.correct?(captcha_validation) : nil
         end
       end
     end#module Verifications
