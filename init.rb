@@ -16,8 +16,6 @@ unless FleskPlugins::CaptchaConfig.config['disable_image_challenges']
   else
     require 'captcha_image_challenge'
   end
-else
-  RAILS_DEFAULT_LOGGER.info "\n\nCAPTCHA image challenges are disabled. RMagick will not be loaded. (validates_captcha)\n\n"
 end
 
 ActiveRecord::Base.send(:include, FleskPlugins::Captcha::Validations)
