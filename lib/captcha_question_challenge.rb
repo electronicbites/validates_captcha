@@ -1,16 +1,11 @@
 module FleskPlugins
-
-
   #This CAPTCHA challenge asks the user a simple question
   #which a machine probably will not understand. This
   #type of challenge is much more accessible than the
   #typical image challenge.
   class CaptchaQuestionChallenge < CaptchaChallenge
-  
     register_name :question
-  
     attr_accessor :question, :answer
-  
   
     # Creates a question challenge, in which the user must
     # answer a (simple) question to prove he is not a machine.
@@ -23,22 +18,17 @@ module FleskPlugins
     # - :answer - The answer to use for this challenge.
     def initialize(options = {})
       super
-      
       if config['questions'].is_a?(Enumerable) && !options.include?(:question)
         options[:question], options[:answer] = config['questions'][rand(config['questions'].size)]
       end
-      
       options.reverse_merge!(
         :question => 'Was ist 2+2?',
         :answer => ['4', 'four']
       )
-      
       self.question = options[:question]
       self.answer = options[:answer]
-      
       write_to_store
     end
-    
     
     # Determine if an answer given by the user is correct.
     def correct?(answer)
@@ -56,9 +46,5 @@ module FleskPlugins
         answer.to_s.downcase.include?(self.answer.to_s.downcase)
       end
     end
-  
-  
   end#class CaptchaQuestionChallenge
-
-
 end#module FleskPlugins

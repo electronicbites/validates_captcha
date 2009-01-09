@@ -7,7 +7,6 @@ module FleskPlugins
   # problems with this challenge, though, as people
   # with reduced or no vision are unlikely to pass the test.
   class CaptchaImageChallenge < CaptchaChallenge
-  
     register_name :image
 
     WORDS = 'gorilla costume, superman, chuck norris, xray vision, ahoy me hearties,
@@ -41,12 +40,10 @@ module FleskPlugins
         :dir => config['default_dir'] || DEFAULT_DIR,
         :filetype => config['default_filetype'] || DEFAULT_FILETYPE
       ).symbolize_keys!
-
       self.string = options[:string]
       self.dir = options[:dir]
       self.filetype = options[:filetype]
       self.filename = options[:filename] || generate_filename
-
       write_to_store
     end
 
@@ -92,25 +89,21 @@ module FleskPlugins
       text.rotation = (rand(2)==1 ? 5 : -5) if options[:rotate]
       
       metric = text.get_type_metrics(self.string)
-
       #add bg
       canvas = Magick::ImageList.new
       canvas << Magick::Image.new(metric.width+options[:padding], metric.height+options[:padding]){
         self.background_color = options[:background]
       }
-
       #add text
       canvas << Magick::Image.new(metric.width+options[:padding], metric.height+options[:padding]){
         self.background_color = 'transparent'
       }.annotate(text, 0, 0, 0, 0, self.string).wave(5, 50)
-
       #add noise
       canvas << Magick::Image.new(metric.width+options[:padding], metric.height+options[:padding]){
         p = Magick::Pixel.from_color(options[:background])
         p.opacity = Magick::MaxRGB/2
         self.background_color = p
       }.add_noise(Magick::LaplacianNoise)
-
       self.image = canvas.flatten_images.blur_image(1)
     end
 

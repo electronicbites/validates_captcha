@@ -2,29 +2,22 @@ module FleskPlugins
   module Captcha
     module Verifications
     
-      
       def self.included(base)#:nodoc:
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
       end
   
-  
       module ClassMethods#:nodoc:
-      
       
         def verify_captcha_for(*args)#:nodoc:
           raise NotImplementedError
           options = args.last.is_a?(Hash) ? args.pop : {}
           options = {
-            
           }.merge(options)
-          
           before_filter :verify_captcha, :only => args
         end
       
-      
       end#module ClassMethods
-
 
       #These methods are available in your
       #controller methods (actions).
@@ -57,10 +50,7 @@ module FleskPlugins
             nil
           end
         end
-      
       end
-  
-  
     end#module Verifications
   end#module Captcha
 end#module FleskPlugins

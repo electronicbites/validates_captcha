@@ -2,20 +2,15 @@ require 'active_record'
 
 module FleskPlugins #:nodoc:
   module Captcha #:nodoc:
-
-
     #AR validations
     module Validations #:nodoc:
-
 
       def self.included(base) #:nodoc:
         base.extend(ClassMethods)
       end
 
-
       # Class methods to be used in your models.
       module ClassMethods
-
 
         # Validates a CAPTCHA challenge.
         # 
@@ -41,15 +36,12 @@ module FleskPlugins #:nodoc:
           options = {
             :message => CaptchaConfig.config['default_message'] || 'CAPTCHA validation did not match.'
           }.update(options)
-
           include FleskPlugins::Captcha::Validations::InstanceMethods
 
           class_eval do
             attr_accessor :captcha_id, :captcha_validation
             attr_accessible :captcha_id, :captcha_validation if accessible_attributes
-            
             after_create :delete_captcha
-
             send validation_method(options[:on] || :save) do |record|
               unless options[:if] && !options[:if].call(record)
                 record.send(:validate_captcha, options)
@@ -57,19 +49,14 @@ module FleskPlugins #:nodoc:
             end
           end
         end
-
-
       end#module ClassMethods
-
 
       # module InstanceMethods
       module InstanceMethods #:nodoc:
 
-
         def prepare_captcha #:nodoc:
           raise NotImplementedError
         end
-
 
       private
 
@@ -78,7 +65,6 @@ module FleskPlugins #:nodoc:
           #adding extra logic to unit tests unnecessary.
           unless RAILS_ENV == 'test' && !CaptchaConfig.config['i_will_test_validation_myself_thank_you_very_much']
             captcha = CaptchaChallenge.find(captcha_id)
-  
             if captcha
               if !captcha.correct?(captcha_validation)
                 errors.add('captcha_validation', options[:message])
@@ -96,13 +82,7 @@ module FleskPlugins #:nodoc:
         def delete_captcha
           CaptchaChallenge.delete(captcha_id)
         end
-
-
       end
-
-
     end#module Validations
-
-
   end#module Captcha
 end#module FleskPlugins

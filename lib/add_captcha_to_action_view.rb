@@ -3,10 +3,8 @@ require 'action_view'
 module FleskPlugins #:nodoc:
   module Captcha #:nodoc:
 
-
     # Captcha helper methods. See README for an introduction.
     module Helpers
-    
       #Synchronise with FormBuilderExtensions!
 
 
@@ -34,7 +32,6 @@ module FleskPlugins #:nodoc:
         CaptchaChallenge.get(options.delete(:type) || :image).new(options)
       end
 
-
       # Returns an +image+ tag with the image generated in the
       # +challenge+ object.
       # 
@@ -53,10 +50,8 @@ module FleskPlugins #:nodoc:
             :alt => 'CAPTCHA image'
           }.merge(options)
         )
-
         # now that we're done with the image, clean up the associated memory
         challenge.cleanup
-
         html
       end
       
@@ -87,10 +82,8 @@ module FleskPlugins #:nodoc:
         options = {
           :value => challenge.id
         }.merge(options)
-        
         hidden_field(object, 'captcha_id', options)
       end
-
 
       # Creates a text field for the user to type
       # the solution to the challenge (i.e. the
@@ -115,7 +108,6 @@ module FleskPlugins #:nodoc:
         options = {
           :for => "#{object}_captcha_validation"
         }.merge(options)
-        
         content_tag('label', name, options)
       end
 
@@ -123,38 +115,28 @@ module FleskPlugins #:nodoc:
       def captcha_ttl(c) #:nodoc:
         c.ttl
       end
-
-
     end#module Helpers
-
 
     #For use with +form_for+ and +fields_for+.
     module FormBuilderExtensions
-    
       #Synchronise with Helpers module
-      
       StupidError = Class.new(StandardError)
-    
     
       def captcha_text_field(options = {})
         text_field('captcha_validation', options)
       end
       
-      
       def captcha_hidden_field(challenge, options = {})
         options = {
           :value => challenge.id
         }.merge(options)
-        
         hidden_field('captcha_id', options)
       end
-      
       
       def captcha_label(name = 'CAPTCHA validation', options = {})
         options = {
           :for => "#{object_name}_captcha_validation"
         }.merge(options)
-        
         @template.send(:content_tag, 'label', name, options)
       rescue
         raise StupidError, "Oops, I relied on some Rails internals, and now they've changed it apparently. Please let me know about it."
@@ -165,13 +147,10 @@ module FleskPlugins #:nodoc:
         options = {
           :for => "#{object_name}_captcha_validation"
         }.update(options)
-        
         @template.send(:content_tag, 'label', "#{options[:before]}#{challenge.question}#{options[:after]}", options)
       rescue
         raise StupidError, "Oops, I relied on some Rails internals, and now they've changed it apparently. Please let me know about it."
       end
-    
-    
     end#module FormBuilderExtensions
 
 

@@ -2,10 +2,8 @@ require 'digest/sha1'
 
 module FleskPlugins #:nodoc:
 
-
   # This is an abstract class. Use one of its subclasses.
   class CaptchaChallenge
-
     include CaptchaConfig
     extend CaptchaConfig
 
@@ -16,27 +14,21 @@ module FleskPlugins #:nodoc:
     
     @@types = HashWithIndifferentAccess.new
 
-
-
     def initialize(options = {}) #:nodoc:
       generate_id
 
       options = {
         :ttl => config['default_ttl'] || DEFAULT_TTL
       }.update(options)
-
       self.ttl = options[:ttl]
       @created_at = Time.now
-
       self.class.prune
     end
-
 
     # Implement in subclasses.
     def correct? #:nodoc:
       raise NotImplementedError
     end
-    
     
     # Has this challenge expired?
     def expired?
@@ -113,10 +105,7 @@ module FleskPlugins #:nodoc:
           end
         }
       end#prune
-  
     end#class << self
-
-
   end
 
 

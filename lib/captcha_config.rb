@@ -1,7 +1,4 @@
-#captcha_config.rb
-
 module FleskPlugins #:nodoc
-
 
   # This module provides configuration options to the
   # other CAPTCHA classes. There is an optional configuration
@@ -52,16 +49,13 @@ module FleskPlugins #:nodoc
     # Returns the hash from the YAML configuration file.
     def config
       return @@config if @@config
-      
       if File.exists?(CONFIG_LOCATION)
         @@config = YAML.load_file(CONFIG_LOCATION)
       else
         @@config = {}
       end
-      
       @@config
     end
-
 
     # Returns the PStore instance used to store the
     # CAPTCHA challenges.
@@ -69,12 +63,9 @@ module FleskPlugins #:nodoc
       @@pstore ||= PStore.new(
         File.join(RAILS_ROOT, (self.config['store'] || DEFAULT_PSTORE_LOCATION))
       )
-
       @@pstore
     end
 
-
   end#module Config
-
 
 end#module FleskPlugins
